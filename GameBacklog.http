@@ -1,0 +1,6 @@
+@GameBacklog_HostAddress = http://localhost:5251
+
+GET {{GameBacklog_HostAddress}}/games/
+Accept: application/json
+
+###
