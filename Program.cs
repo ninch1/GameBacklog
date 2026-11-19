@@ -1,10 +1,15 @@
-using GameBacklog.Dtos;
+using GameBacklog.Data;
+using GameBacklog.Routes;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddValidation();
+
+builder.AddGameBacklogDb();
 
 var app = builder.Build();
 
@@ -16,15 +21,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var games = new[]
-{
-    new GameDto("The Last of Us", "Action-Adventure", "PS4", 9.5),
-    new GameDto("The Witcher 3: Wild Hunt", "Action-Adventure", "PS4", 9.5),
-    new GameDto("The Elder Scrolls V: Skyrim", "Action-Adventure", "PS4", 9.5),
-    new GameDto("The Legend of Zelda: Breath of the Wild", "Action-Adventure", "PS4", 9.5),
-    new GameDto("The Legend of Zelda: Breath of the Wild", "Action-Adventure", "PS4", 9.5)
-};
-
-app.MapGet("/games", () => (games));
+app.MapGamesRoutes();
 
 app.Run();

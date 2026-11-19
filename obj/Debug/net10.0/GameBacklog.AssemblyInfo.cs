@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("cfd7d949-d3d4-451f-bc49-07beb6c601f6")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("GameBacklog")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+119012c1197f3280f1a12ed203b598cc59294e3f")]
 [assembly: System.Reflection.AssemblyProductAttribute("GameBacklog")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GameBacklog")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
