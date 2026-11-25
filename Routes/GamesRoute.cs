@@ -3,6 +3,7 @@ using GameBacklog.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
 
 namespace GameBacklog.Routes;
 
@@ -51,8 +52,15 @@ public static class GamesRoute
             return TypedResults.Ok(gameDto);
         }).WithName("GetGame").ProducesProblem(404);
 
-        group.MapPost("/", async (GameDto newGame, GameBacklogContext dBcontext) =>
+        group.MapPost("/", async (GameDto newGame, IValidator<GameDto> validator, GameBacklogContext dBcontext) =>
         {
+            var validation = await validator.ValidateAsync(newGame);
+
+            if (!validation.IsValid)
+            {
+                return Results.ValidationProblem(validation.ToDictionary());
+            }
+
             Game game = new Game {
                 Name = newGame.Name,
                 Genre = newGame.Genre,
@@ -70,7 +78,7 @@ public static class GamesRoute
                     routeName: "GetGame",
                     routeValues: new { id = game.Id }
                 );
-        });
+        }).DisableValidation();
 
         group.MapPut("/{id}", async Task<Results<Ok<GameDetailsDto>, NotFound>> (int id, GameDto updatedGame, GameBacklogContext dBcontext) =>
         {

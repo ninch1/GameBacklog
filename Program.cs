@@ -1,6 +1,9 @@
+using FluentValidation;
 using GameBacklog.Data;
+using GameBacklog.Dtos;
 using GameBacklog.Middleware;
 using GameBacklog.Routes;
+using GameBacklog.Validation;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddValidation();
+builder.Services.AddScoped<IValidator<GameDto>, GameDtoValidator>();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();

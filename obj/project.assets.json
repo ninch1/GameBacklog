@@ -2,6 +2,19 @@
   "version": 4,
   "targets": {
     "net10.0": {
+      "FluentValidation/12.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -688,6 +701,21 @@
     }
   },
   "libraries": {
+    "FluentValidation/12.2.0": {
+      "sha512": "DR3lFbdnKucaaj1/8zMNOACMz/64igzox1yVZSFVsLxYB5mxAB+wFP1WZ8fjwrZnbU1KA1DoMzHKYKxUfuZ4wQ==",
+      "type": "package",
+      "path": "fluentvalidation/12.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "fluent-validation-icon.png",
+        "fluentvalidation.12.2.0.nupkg.sha512",
+        "fluentvalidation.nuspec",
+        "lib/net8.0/FluentValidation.dll",
+        "lib/net8.0/FluentValidation.xml"
+      ]
+    },
     "Humanizer.Core/2.14.1": {
       "sha512": "lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "type": "package",
@@ -2233,6 +2261,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "FluentValidation >= 12.2.0",
       "Microsoft.AspNetCore.OpenApi >= 10.0.13",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.3",
@@ -2240,31 +2269,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nini\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/ninch1/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nini\\Documents\\Code\\MiniLogAPI\\GameBacklog\\GameBacklog.csproj",
+      "projectUniqueName": "/Users/ninch1/Documents/Code/GameBacklog/GameBacklog.csproj",
       "projectName": "GameBacklog",
-      "projectPath": "C:\\Users\\nini\\Documents\\Code\\MiniLogAPI\\GameBacklog\\GameBacklog.csproj",
-      "packagesPath": "C:\\Users\\nini\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nini\\Documents\\Code\\MiniLogAPI\\GameBacklog\\obj\\",
+      "projectPath": "/Users/ninch1/Documents/Code/GameBacklog/GameBacklog.csproj",
+      "packagesPath": "/Users/ninch1/.nuget/packages/",
+      "outputPath": "/Users/ninch1/Documents/Code/GameBacklog/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\nini\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/ninch1/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2291,6 +2313,10 @@
         "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
+          "FluentValidation": {
+            "target": "Package",
+            "version": "[12.2.0, )"
+          },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[10.0.13, )"
@@ -2329,7 +2355,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.402/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.403/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
