@@ -121,3 +121,4 @@ C:\Users\nini\Documents\Code\MiniLogAPI\GameBacklog\bin\Debug\net10.0\ru\Microso
 C:\Users\nini\Documents\Code\MiniLogAPI\GameBacklog\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\nini\Documents\Code\MiniLogAPI\GameBacklog\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\nini\Documents\Code\MiniLogAPI\GameBacklog\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+C:\Users\nini\Documents\Code\MiniLogAPI\GameBacklog\bin\Debug\net10.0\Scalar.AspNetCore.dll

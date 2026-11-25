@@ -1,31 +1,55 @@
 using GameBacklog.Data;
 using GameBacklog.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GameBacklog.Routes;
 
 public static class GamesRoute
 {
+    public enum Platform
+    {
+        PS5,
+        Xbox,
+        Nintendo,
+        PC,
+        Mobile
+    }
+
     public static void MapGamesRoutes(this WebApplication app)
     {
         var group = app.MapGroup("/games");
 
-        group.MapGet("/", async (GameBacklogContext dBcontext) =>
-                                                                    await dBcontext.Games
-                                                                    .Select(g => new GameDetailsDto(g.Id, g.Name, g.Genre, g.Platform, g.Rating))
-                                                                    .AsNoTracking()
-                                                                    .ToListAsync());
+        group.MapGet("/", async (
+            GameBacklogContext dBcontext,
+            [FromQuery] Platform? platform
+        ) =>
+        {
+            string? platformName = platform?.ToString();
 
-        group.MapGet("/{id}", async (int id, GameBacklogContext dBcontext) =>
+            return await dBcontext.Games
+                .Where(g => platformName == null || g.Platform == platformName)
+                .Select(g => new GameDetailsDto(
+                    g.Id, g.Name, g.Genre, g.Platform, g.Rating
+                ))
+                .AsNoTracking()
+                .ToListAsync();
+        });
+
+        group.MapGet("/{id}", async Task<Results<Ok<GameDetailsDto>, ProblemHttpResult>> (int id, GameBacklogContext dBcontext) =>
         {
             Game? game = await dBcontext.Games.FindAsync(id);
+
             if (game is null)
             {
-                return Results.NotFound();
+                return TypedResults.Problem(detail: $"Game with id {id} not found", statusCode: 404, title: "Game not found");
             }
+
             GameDetailsDto gameDto = new GameDetailsDto(game.Id, game.Name, game.Genre, game.Platform, game.Rating);
-            return Results.Ok(gameDto);
-        }).WithName("GetGame");
+
+            return TypedResults.Ok(gameDto);
+        }).WithName("GetGame").ProducesProblem(404);
 
         group.MapPost("/", async (GameDto newGame, GameBacklogContext dBcontext) =>
         {
@@ -41,15 +65,19 @@ public static class GamesRoute
 
             GameDetailsDto gameDto = new GameDetailsDto(game.Id, game.Name, game.Genre, game.Platform, game.Rating);
 
-            return Results.CreatedAtRoute("GetGame", new { id = game.Id }, gameDto);
+            return TypedResults.CreatedAtRoute(
+                    value: gameDto,
+                    routeName: "GetGame",
+                    routeValues: new { id = game.Id }
+                );
         });
 
-        group.MapPut("/{id}", async (int id, GameDto updatedGame, GameBacklogContext dBcontext) =>
+        group.MapPut("/{id}", async Task<Results<Ok<GameDetailsDto>, NotFound>> (int id, GameDto updatedGame, GameBacklogContext dBcontext) =>
         {
             Game? game = await dBcontext.Games.FindAsync(id);
             if (game is null)
             {
-                return Results.NotFound();
+                return TypedResults.NotFound();
             }
             game.Name = updatedGame.Name;
             game.Genre = updatedGame.Genre;
@@ -60,19 +88,19 @@ public static class GamesRoute
 
             GameDetailsDto gameDto = new GameDetailsDto(game.Id, game.Name, game.Genre, game.Platform, game.Rating);
 
-            return Results.Ok(gameDto);
+            return TypedResults.Ok(gameDto);
         });
 
-        group.MapDelete("/{id}", async (int id, GameBacklogContext dBcontext) =>
+        group.MapDelete("/{id}", async Task<Results<NoContent, NotFound>> (int id, GameBacklogContext dBcontext) =>
         {
             Game? game = await dBcontext.Games.FindAsync(id);
             if (game is null)
             {
-                return Results.NotFound();
+                return TypedResults.NotFound();
             }
             dBcontext.Games.Remove(game);
             await dBcontext.SaveChangesAsync();
-            return Results.NoContent();
+            return TypedResults.NoContent();
         });
     }
 }

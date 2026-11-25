@@ -543,6 +543,22 @@
           }
         }
       },
+      "Scalar.AspNetCore/3.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
@@ -2011,6 +2027,23 @@
         "postgresql.png"
       ]
     },
+    "Scalar.AspNetCore/3.2.0": {
+      "sha512": "sPxc+khxOd44lDvfuuf9+sdQiyaSYQ8cz+udZIHuO45G3psadh6JMlrv+Km6/D7EeQmd6cSMKxIEA8KhrKkvyg==",
+      "type": "package",
+      "path": "scalar.aspnetcore/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net10.0/Scalar.AspNetCore.dll",
+        "lib/net10.0/Scalar.AspNetCore.xml",
+        "lib/net11.0/Scalar.AspNetCore.dll",
+        "lib/net11.0/Scalar.AspNetCore.xml",
+        "scalar.aspnetcore.3.2.0.nupkg.sha512",
+        "scalar.aspnetcore.nuspec"
+      ]
+    },
     "System.CodeDom/6.0.0": {
       "sha512": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
       "type": "package",
@@ -2202,7 +2235,8 @@
     "net10.0": [
       "Microsoft.AspNetCore.OpenApi >= 10.0.13",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.3",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.3"
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.3",
+      "Scalar.AspNetCore >= 3.2.0"
     ]
   },
   "packageFolders": {
@@ -2270,6 +2304,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[10.0.3, )"
+          },
+          "Scalar.AspNetCore": {
+            "target": "Package",
+            "version": "[3.2.0, )"
           }
         },
         "imports": [
