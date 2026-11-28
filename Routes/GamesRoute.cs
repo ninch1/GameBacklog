@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
+using GameBacklog.Validation;
 
 namespace GameBacklog.Routes;
 
@@ -20,7 +21,7 @@ public static class GamesRoute
 
     public static void MapGamesRoutes(this WebApplication app)
     {
-        var group = app.MapGroup("/games");
+        var group = app.MapGroup("/games").RequireAuthorization();
 
         group.MapGet("/", async (
             GameBacklogContext dBcontext,
@@ -54,18 +55,11 @@ public static class GamesRoute
 
         group.MapPost("/", async (GameDto newGame, IValidator<GameDto> validator, GameBacklogContext dBcontext) =>
         {
-            var validation = await validator.ValidateAsync(newGame);
-
-            if (!validation.IsValid)
-            {
-                return Results.ValidationProblem(validation.ToDictionary());
-            }
-
             Game game = new Game {
                 Name = newGame.Name,
                 Genre = newGame.Genre,
                 Platform = newGame.Platform,
-                Rating = newGame.Rating
+                Rating = newGame.Rating!.Value
             };
 
             await dBcontext.Games.AddAsync(game);
@@ -78,7 +72,8 @@ public static class GamesRoute
                     routeName: "GetGame",
                     routeValues: new { id = game.Id }
                 );
-        }).DisableValidation();
+        }).DisableValidation()
+        .AddEndpointFilter<ValidationFilter<GameDto>>();
 
         group.MapPut("/{id}", async Task<Results<Ok<GameDetailsDto>, NotFound>> (int id, GameDto updatedGame, GameBacklogContext dBcontext) =>
         {
@@ -90,14 +85,16 @@ public static class GamesRoute
             game.Name = updatedGame.Name;
             game.Genre = updatedGame.Genre;
             game.Platform = updatedGame.Platform;
-            game.Rating = updatedGame.Rating;
+            game.Rating = updatedGame.Rating!.Value;
 
             await dBcontext.SaveChangesAsync();
 
             GameDetailsDto gameDto = new GameDetailsDto(game.Id, game.Name, game.Genre, game.Platform, game.Rating);
 
             return TypedResults.Ok(gameDto);
-        });
+        })
+        .DisableValidation()
+        .AddEndpointFilter<ValidationFilter<GameDto>>();
 
         group.MapDelete("/{id}", async Task<Results<NoContent, NotFound>> (int id, GameBacklogContext dBcontext) =>
         {
